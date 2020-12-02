@@ -27,8 +27,9 @@ jobs:
     - name: Install dependencies
       run: yarn
     - run: yarn test
+    - run: yarn build
     # - run: apt-get update -qq
     # - run: apt-get install -y -qq lftp
-    - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u${{secrets.USERNAME}}, ${{secrets.PASSWORD}} ${{secrets.HOST}}
+    - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u ${{secrets.USERNAME}},${{secrets.PASSWORD}} ${{secrets.HOST}}
 
 
