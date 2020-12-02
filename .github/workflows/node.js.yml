@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Deploy website on push
+name: Node.js CI
 
 on:
   push:
@@ -10,8 +10,8 @@ on:
     branches: [ main ]
 
 jobs:
-  web-deploy:
-    name: Deploy
+  build:
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,15 +27,8 @@ jobs:
     - name: Install dependencies
       run: yarn
     - run: yarn test
-    - run: yarn build
-    - name: Sync files
-      # uses: SamKirkland/FTP-Deploy-Action@4.0.0
-      # with:
-      #   server: $HOST
-      #   username: $USERNAME
-      #   password: $PASSWORD
-    # - run: sudo apt-get update -qq
-    # - run: sudo apt-get install -y -qq lftp
-    - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u ${{secrets.USERNAME}},${{secrets.PASSWORD}} ${{secrets.HOST}}
+    # - run: apt-get update -qq
+    # - run: apt-get install -y -qq lftp
+    - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u${{secrets.USERNAME}}, ${{secrets.PASSWORD}} ${{secrets.HOST}}
 
 
