@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,7 @@ jobs:
     - name: Install dependencies
       run: yarn
     - run: yarn test
+    - run: yarn build
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -y -qq lftp
     - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u $USERNAME,$PASSWORD $HOST
