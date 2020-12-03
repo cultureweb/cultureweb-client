@@ -15,33 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-
       matrix:
         node-version: [10.x, 12.x, 14.x]
-    
+
     steps:
-    
+    - uses: actions/checkout@v2
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-
     - name: Install dependencies
       run: yarn
-
-    - name: Test and Build  
     - run: yarn test
     - run: yarn build
+    - run: sudo apt-get update -qq
+    - run: sudo apt-get install -y -qq lftp
+    - run: lftp $HOST -u $USERNAME, $PASSWORD -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; exit" 
 
-    - name: Deploy
-      uses: cultureweb/ftp-deploy-action@v1.2.1  
-    with:
-    ftp_host: ${{ secrets.HOST }}
-    ftp_username: ${{ secrets.USERNAME }}
-    ftp_password: ${{ secrets.PASSWORD }}
-    local_source_dir: "build"
-    dist_target_dir: "dev"
-    delete: "true"
-    exclude: "'^logs/' '^README.md'"
 
 
