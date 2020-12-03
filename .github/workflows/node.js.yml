@@ -16,11 +16,7 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.3.1
-        with:
-          persist-credentials: false
-
+    - uses: actions/checkout@v2.3.1
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
