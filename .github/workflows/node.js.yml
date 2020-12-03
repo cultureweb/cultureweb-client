@@ -26,7 +26,11 @@ jobs:
     - run: yarn build
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -y -qq lftp
-    - run: lftp ${{ secrets.HOST }} -u ${{ secrets.USERNAME }},{{ secrets.PASSWORD }} -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" 
+    - run: lftp -e "set ssl:verify-certificate false; mirror --reverse --verbose --delete build/ ./dev ; quit" -u ${{ secrets.USERNAME }},{{ secrets.PASSWORD }} ${{ secrets.HOST }}
+
+
+
+
 
 
 
